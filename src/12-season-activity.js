@@ -31,24 +31,24 @@
  * @returns {{ season: string, activity: string } | null}
  */
 export function getSeasonActivity(month, temperature) {
-  // Your code here
-  if(!Number.isInteger(month) || month < 1 || month > 12) return null;
-  
-  if ((month === 12 || month === 1 || month === 2) && temperature < 0) {
-    return { season: 'Winter', activity: 'skiing' };
-  } else if ((month === 12 || month === 1 || month === 2) && temperature >= 0) {
-    return { season: 'Winter', activity: 'ice skating' };
-  } else if ((month === 3 || month === 4 || month === 5) && temperature > 20) {
-    return { season: 'Spring', activity: 'hiking' };
-  } else if ((month === 3 || month === 4 || month === 5) && temperature <= 20) {
-    return { season: 'Spring', activity: 'museum visit' };
-  } else if ((month === 6 || month === 7 || month === 8) && temperature > 35) {
-    return { season: 'Summer', activity: 'swimming' };
-  } else if ((month === 6 || month === 7 || month === 8) && temperature <= 35) {
-    return { season: 'Summer', activity: 'cycling' };
-  } else if ((month === 9 || month === 10 || month === 11) && temperature > 15) {
-    return { season: 'Autumn', activity: 'nature walk' };
-  } else if ((month === 9 || month === 10 || month === 11) && temperature <= 15) {
-    return { season: 'Autumn', activity: 'reading at a cafe' };
+  if (!Number.isInteger(month) || month < 1 || month > 12) return null;
+
+  const seasons = [
+    null,
+    'Winter', 'Winter', 'Spring', 'Spring', 'Spring',
+    'Summer', 'Summer', 'Summer', 'Autumn', 'Autumn', 'Autumn',
+    'Winter',
+  ];
+  const season = seasons[month];
+
+  switch (season) {
+    case 'Winter':
+      return { season, activity: temperature < 0 ? 'skiing' : 'ice skating' };
+    case 'Spring':
+      return { season, activity: temperature > 20 ? 'hiking' : 'museum visit' };
+    case 'Summer':
+      return { season, activity: temperature > 35 ? 'swimming' : 'cycling' };
+    case 'Autumn':
+      return { season, activity: temperature > 15 ? 'nature walk' : 'reading at a cafe' };
   }
 }
