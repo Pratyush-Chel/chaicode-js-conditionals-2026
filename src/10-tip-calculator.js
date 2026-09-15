@@ -30,46 +30,18 @@
  * @returns {{ tipPercentage: number, tipAmount: number, totalAmount: number } | null}
  */
 export function calculateTip(billAmount, serviceRating) {
-  // Your code here
-  let obj = {
-    'tipPercentage': 0,
-    'tipAmount': 0,
-    'totalAmount': 0  
+  if (!Number.isFinite(billAmount) || billAmount <= 0) return null;
+  if (!Number.isInteger(serviceRating) || serviceRating < 1 || serviceRating > 5) {
+    return null;
   }
 
-  if(billAmount <= 0) return null;
-  if(!Number.isInteger(serviceRating) || serviceRating < 1 || serviceRating > 5) return null;
+  const tipPercentage = serviceRating * 5;
+  const roundToCents = amount => Math.round(amount * 100) / 100;
+  const tipAmount = roundToCents(billAmount * tipPercentage / 100);
 
-  switch(serviceRating){
-    case 1:
-      obj.tipPercentage = 5;
-      obj.tipAmount = billAmount * 0.05;
-      obj.totalAmount = billAmount + obj.tipAmount;
-
-      return obj;
-    case 2:
-      obj.tipPercentage = 10;
-      obj.tipAmount = billAmount * 0.1;
-      obj.totalAmount = billAmount + obj.tipAmount;
-
-      return obj;
-    case 3:
-      obj.tipPercentage = 15;
-      obj.tipAmount = billAmount * 0.15;
-      obj.totalAmount = billAmount + obj.tipAmount;
-
-      return obj;
-    case 4:
-      obj.tipPercentage = 20;
-      obj.tipAmount = billAmount * 0.2;
-      obj.totalAmount = billAmount + obj.tipAmount;
-
-      return obj;
-    case 5:
-      obj.tipPercentage = 25;
-      obj.tipAmount = billAmount * 0.25;
-      obj.totalAmount = billAmount + obj.tipAmount;
-
-      return obj;
-  }
+  return {
+    tipPercentage,
+    tipAmount,
+    totalAmount: roundToCents(billAmount + tipAmount),
+  };
 }
